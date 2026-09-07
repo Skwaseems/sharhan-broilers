@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sharhan Broilers · Fresh & Frozen Chicken</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        :root {
+            --cream: #F3EBDA;
+            --paper: #FBF6EC;
+            --maroon: #7A211B;
+            --maroon-dark: #5C1815;
+            --charcoal: #262019;
+            --gold: #C98A2C;
+            --green: #55704A;
+            --blue: #3E5C76;
+            --line: rgba(38, 32, 25, 0.14);
+            --ink-soft: #6E6154;
+        }
+
+        body {
+            background: var(--cream);
+            color: var(--charcoal);
+            font-family: 'Work Sans', sans-serif;
+            line-height: 1.5;
+        }
+
+        h1,
+        h2,
+        h3,
+        .display {
+            font-family: 'Fraunces', serif;
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* topbar */
+        .topbar {
+            background: var(--maroon);
+            color: var(--paper);
+            font-size: 13px;
+        }
+
+        .topbar .wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 24px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .topbar .msg {
+            font-weight: 500;
+        }
+
+        .topbar .links {
+            display: flex;
+            gap: 20px;
+            color: rgba(251, 246, 236, 0.85);
+        }
+
+        .topbar .links span {
+            white-space: nowrap;
+        }
+
+        /* header */
+        header {
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            padding: 18px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .shop-mark {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shop-mark .glyph {
+            width: 38px;
+            height: 38px;
+            flex: none;
+        }
+
+        .shop-name {
+            font-size: 21px;
+            font-weight: 600;
+            letter-spacing: 0.1px;
+        }
+
+        .locate {
+            font-size: 13px;
+            color: var(--ink-soft);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-left: 1px solid var(--line);
+            padding-left: 20px;
+        }
+
+        .search {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            background: var(--cream);
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            padding: 9px 14px;
+            gap: 8px;
+        }
+
+        .search input {
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 14px;
+            flex: 1;
+            color: var(--charcoal);
+            font-family: inherit;
+        }
+
+        .search input::placeholder {
+            color: var(--ink-soft);
+        }
+
+        /* Cart */
+        .cart-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--charcoal);
+            color: var(--paper);
+            padding: 9px 16px;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .cart-count {
+            background: var(--gold);
+            color: var(--charcoal);
+            font-size: 12px;
+            font-weight: 700;
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+
+        .cart-count.bump {
+            transform: scale(1.35);
+        }
+
+        .cart-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            min-width: 320px;
+            max-width: 400px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            z-index: 100;
+            margin-top: 8px;
+        }
+
+        .cart-dropdown.active {
+            display: block;
+        }
+
+        .cart-dropdown h4 {
+            margin-bottom: 12px;
+            font-family: 'Fraunces', serif;
+            font-size: 18px;
+        }
+
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--line);
+            font-size: 14px;
+        }
+
+        .cart-item .item-info {
+            flex: 1;
+        }
+
+        .cart-item .item-name {
+            font-weight: 500;
+        }
+
+        .cart-item .item-price {
+            color: var(--ink-soft);
+            font-size: 13px;
+        }
+
+        .cart-item .item-qty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cart-item .item-qty button {
+            background: var(--cream);
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item .item-qty button:hover {
+            background: var(--gold);
+        }
+
+        .cart-item .item-qty span {
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-weight: 600;
+            font-size: 16px;
+            border-top: 2px solid var(--charcoal);
+            margin-top: 8px;
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: var(--ink-soft);
+            padding: 20px 0;
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .cart-actions button {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1da851;
+        }
+
+        .btn-clear {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: #c0392b;
+        }
+
+        .btn-checkout {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-checkout:hover {
+            background: #3d5a33;
+        }
+
+        /* auth bar */
+        .auth-bar {
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+            padding: 8px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            font-size: 14px;
+        }
+
+        .auth-bar .greeting {
+            font-weight: 500;
+            color: var(--maroon);
+        }
+
+        .auth-bar button {
+            background: var(--maroon);
+            color: var(--paper);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .auth-bar .admin-badge {
+            background: var(--gold);
+            color: var(--charcoal);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .auth-bar .switch-link {
+            color: var(--blue);
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        /* login modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--paper);
+            max-width: 380px;
+            width: 90%;
+            padding: 32px 28px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-box h3 {
+            margin-bottom: 18px;
+            font-family: 'Fraunces', serif;
+        }
+
+        .modal-box label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+
+        .modal-box input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .modal-box .actions {
+            margin-top: 22px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-box .actions button {
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .modal-box .actions .primary {
+            background: var(--maroon);
+            color: white;
+        }
+
+        .modal-box .actions .secondary {
+            background: var(--cream);
+            color: var(--charcoal);
+        }
+
+        .modal-box .error {
+            color: #b33;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        /* categories, hero, grid, cards */
+        .categories {
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+            overflow-x: auto;
+        }
+
+        .categories .wrap {
+            display: flex;
+            gap: 34px;
+            padding: 18px 24px 20px;
+        }
+
+        .cat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: none;
+            width: 78px;
+            text-align: center;
+        }
+
+        .cat-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--cream);
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cat-item span {
+            font-size: 12.5px;
+        }
+
+        .hero {
+            padding: 64px 24px;
+            background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
+            color: var(--paper);
+        }
+
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            color: var(--paper);
+            font-size: clamp(36px, 5vw, 54px);
+            font-weight: 600;
+            line-height: 1.08;
+        }
+
+        .hero .sub {
+            margin-top: 16px;
+            font-size: 16px;
+            max-width: 44ch;
+            color: rgba(251, 246, 236, 0.82);
+        }
+
+        .hero .badges {
+            display: flex;
+            gap: 12px;
+            margin-top: 22px;
+            flex-wrap: wrap;
+        }
+
+        .hero .badges span {
+            font-size: 12.5px;
+            border: 1px solid rgba(251, 246, 236, 0.4);
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: rgba(251, 246, 236, 0.9);
+        }
+
+        .hero-glyph {
+            justify-self: center;
+        }
+
+        .section {
+            padding: 56px 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 26px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .section-head h2 {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .section-head .tag {
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 18px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card .offer-badge {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            background: var(--gold);
+            color: var(--charcoal);
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 2px;
+        }
+
+        .card .art {
+            background: var(--cream);
+            border-radius: 4px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            overflow: hidden;
+        }
+
+        .card .art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card .art.frozen-tint {
+            background: #EAF0F4;
+        }
+
+        .card .name {
+            font-size: 15.5px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .card .desc {
+            font-size: 12.5px;
+            color: var(--ink-soft);
+        }
+
+        .card .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .card .price {
+            font-family: 'Fraunces', serif;
+            font-size: 19px;
+            font-weight: 600;
+        }
+
+        .card .price small {
+            font-size: 11.5px;
+            font-weight: 400;
+            color: var(--ink-soft);
+        }
+
+        .card .add {
+            background: var(--green);
+            color: var(--paper);
+            font-size: 12.5px;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: 3px;
+        }
+
+        .card .add:hover {
+            opacity: 0.85;
+        }
+
+        .card .add.added {
+            background: var(--gold);
+        }
+
+        .card.frozen-card .add {
+            background: var(--blue);
+        }
+
+        .card.frozen-card .add.added {
+            background: var(--gold);
+        }
+
+        .fresh .section-head {
+            border-bottom: 2px solid var(--green);
+            padding-bottom: 12px;
+        }
+
+        .frozen-sec .section-head {
+            border-bottom: 2px solid var(--blue);
+            padding-bottom: 12px;
+        }
+
+        .contact {
+            background: var(--charcoal);
+            color: var(--paper);
+            padding: 60px 24px;
+        }
+
+        .contact-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .contact h2 {
+            color: var(--paper);
+            font-size: 26px;
+            margin-bottom: 18px;
+        }
+
+        .contact-item {
+            margin-bottom: 16px;
+        }
+
+        .contact-item .label {
+            font-size: 12.5px;
+            color: rgba(251, 246, 236, 0.55);
+            margin-bottom: 3px;
+        }
+
+        .contact-item .value {
+            font-size: 18px;
+            font-family: 'Fraunces', serif;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 12px;
+            background: var(--green);
+            color: var(--paper);
+            padding: 12px 22px;
+            border-radius: 3px;
+            font-size: 14.5px;
+            font-weight: 600;
+        }
+
+        .hours {
+            font-size: 14.5px;
+            color: rgba(251, 246, 236, 0.85);
+            line-height: 1.8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12.5px;
+            color: var(--ink-soft);
+            background: var(--paper);
+            border-top: 1px solid var(--line);
+        }
+
+        /* admin edit controls */
+        .admin-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin: 4px 0;
+            padding: 8px;
+            background: rgba(62, 92, 118, 0.05);
+            border-radius: 4px;
+        }
+
+        .admin-controls .row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .admin-controls input,
+        .admin-controls select {
+            padding: 4px 8px;
+            font-size: 12px;
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            flex: 1;
+            min-width: 50px;
+        }
+
+        .admin-controls input[type="file"] {
+            padding: 2px;
+            font-size: 11px;
+        }
+
+        .admin-controls button {
+            background: var(--blue);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .admin-controls .del {
+            background: #a33;
+        }
+
+        .admin-controls .image-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid var(--line);
+        }
+
+        .admin-add-btn {
+            background: var(--green);
+            color: #fff;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .admin-add-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--charcoal);
+            color: var(--paper);
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            max-width: 350px;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .toast .toast-msg {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        @media (max-width:900px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-glyph {
+                display: none;
+            }
+
+            .cart-dropdown {
+                min-width: 280px;
+                right: -20px;
+            }
+        }
+
+        @media (max-width:560px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .contact-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .locate {
+                display: none;
+            }
+
+            .cart-dropdown {
+                min-width: 260px;
+                right: -10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- topbar -->
+    <div class="topbar">
+        <div class="wrap">
+            <div class="msg">Fresh cut every morning · Frozen packs always in stock</div>
+            <div class="links"><span>Call: 7709183214</span><span>Sharhan Broilers, Mumbai</span></div>
+        </div>
+    </div>
+
+    <!-- header -->
+    <header>
+        <div class="header-inner">
+            <div class="shop-mark"><svg class="glyph" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="19" stroke="#7A211B" stroke-width="1.5" />
+                    <path d="M14 25c0-7 3-12 8-12 4 0 6 3 6 6 0 2-1 3-3 3-1.5 0-2.5-1-2.5-2.5" stroke="#7A211B"
+                        stroke-width="1.6" stroke-linecap="round" />
+                    <circle cx="24" cy="15" r="1.4" fill="#7A211B" />
+                </svg>
+                <div class="shop-name">Sharhan Broilers Chicken Centre</div>
+            </div>
+            <div class="locate"><span>&#128205;</span> Sharhan Broilers, Mumbai</div>
+            <div class="search"><span>&#128269;</span><input type="text"
+                    placeholder="Search whole chicken, boneless, wings..." id="searchInput"></div>
+            <div class="cart-wrapper">
+                <button class="cart" id="cartToggle">
+                    <span>&#128722;</span> Cart <span class="cart-count" id="cartCount">0</span>
+                </button>
+                <div class="cart-dropdown" id="cartDropdown">
+                    <h4>🛒 Your Order</h4>
+                    <div class="cart-items" id="cartItems">
+                        <div class="cart-empty">Your cart is empty</div>
+                    </div>
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span id="cartTotal">₹0</span>
+                    </div>
+                    <div class="cart-actions">
+                        <button class="btn-whatsapp" id="whatsappOrder">📱 Order on WhatsApp</button>
+                        <button class="btn-clear" id="clearCart">🗑️ Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- auth bar -->
+    <div class="auth-bar wrap" id="authBar">
+        <span id="greeting" class="greeting">👋 Guest</span>
+        <button id="loginBtn">Login</button>
+        <span class="switch-link" id="adminSwitch">🔐 Admin panel</span>
+        <span id="adminBadge" class="admin-badge" style="display:none;">Admin</span>
+        <button id="logoutBtn" style="display:none; background:#333;">Logout</button>
+    </div>
+
+    <!-- categories -->
+    <div class="categories">
+        <div class="wrap">
+            <div class="cat-item">
+                <div class="cat-circle"><svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M9 20c0-6 3-11 8-11 4 0 6 2.5 6 5.5 0 2-1.2 3-3 3-1.5 0-2.3-1-2.3-2.2" stroke="#55704A"
+                            stroke-width="1.6" stroke-linecap="round" />
+                        <circle cx="19" cy="10" r="1.2" fill="#55704A" />
+                    </svg></div><span>Whole (Fresh)</span>
+            </div>
+            <div class="cat-item">
+                <div class="cat-circle"><svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M9 20c0-6 3-11 8-11 4 0 6 2.5 6 5.5 0 2-1.2 3-3 3-1.5 0-2.3-1-2.3-2.2" stroke="#3E5C76"
+                            stroke-width="1.6" stroke-linecap="round" />
+                        <circle cx="19" cy="10" r="1.2" fill="#3E5C76" />
+                    </svg></div><span>Whole (Frozen)</span>
+            </div>
+            <div class="cat-item">
+                <div class="cat-circle"><svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <ellipse cx="11" cy="12" rx="4" ry="3" fill="#C98A2C" opacity="0.85" />
+                        <ellipse cx="19" cy="15" rx="4.5" ry="3.3" fill="#C98A2C" opacity="0.7" />
+                        <ellipse cx="13" cy="20" rx="3.6" ry="2.8" fill="#C98A2C" opacity="0.6" />
+                    </svg></div><span>Curry Cut</span>
+            </div>
+            <div class="cat-item">
+                <div class="cat-circle"><svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M8 18c0-5 4-9 9-9s7 3 7 6-2 4-4.5 4S16 17.5 16 15" stroke="#7A211B" stroke-width="1.6"
+                            stroke-linecap="round" fill="none" />
+                    </svg></div><span>Boneless</span>
+            </div>
+            <div class="cat-item">
+                <div class="cat-circle"><svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <path d="M10 9c6 0 10 4 10 10 0 3-2 5-5 5-2 0-3.5-1.5-3.5-3.5" stroke="#55704A"
+                            stroke-width="1.6" stroke-linecap="round" fill="none" />
+                    </svg></div><span>Wings & Legs</span>
+            </div>
+            <div class="cat-item">
+                <div class="cat-circle"><svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+                        <circle cx="11" cy="12" r="1.6" fill="#7A211B" />
+                        <circle cx="17" cy="10" r="1.6" fill="#7A211B" />
+                        <circle cx="20" cy="15" r="1.6" fill="#7A211B" />
+                        <circle cx="13" cy="18" r="1.6" fill="#7A211B" />
+                        <circle cx="18" cy="20" r="1.6" fill="#7A211B" />
+                        <circle cx="9" cy="17" r="1.6" fill="#7A211B" />
+                    </svg></div><span>Mince</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div>
+                <h1>Cut fresh every morning.<br>Packed for the freezer too.</h1>
+                <p class="sub">Whole birds, curry cuts, and boneless portions — sold fresh off the block or sealed
+                    frozen.</p>
+                <div class="badges"><span>Cut after you order</span><span>Same-day fresh</span><span>Frozen always in
+                        stock</span></div>
+            </div>
+            <div class="hero-glyph"><svg width="220" height="220" viewBox="0 0 220 220" fill="none">
+                    <circle cx="110" cy="110" r="105" fill="rgba(251,246,236,0.06)" />
+                    <path d="M60 150c0-45 22-80 55-80 26 0 42 17 42 38 0 14-9 22-22 22-11 0-18-7-18-16" stroke="#FBF6EC"
+                        stroke-width="3" stroke-linecap="round" fill="none" />
+                    <circle cx="145" cy="86" r="3.2" fill="#FBF6EC" />
+                </svg></div>
+        </div>
+    </section>
+
+    <!-- Today's offers -->
+    <section class="section">
+        <div class="section-head">
+            <h2>Today's Offers</h2><span class="tag">Sample pricing — confirm today's rate at the counter</span>
+        </div>
+        <div class="grid" id="offersGrid"></div>
+    </section>
+
+    <!-- Fresh -->
+    <section class="section fresh" id="fresh">
+        <div class="section-head">
+            <h2>Fresh Chicken</h2><span class="tag">Cut daily, sold same day</span>
+        </div>
+        <div class="grid" id="freshGrid"></div>
+    </section>
+
+    <!-- Frozen -->
+    <section class="section frozen-sec" id="frozen">
+        <div class="section-head">
+            <h2>Frozen Chicken</h2><span class="tag">Packed and stored, ready to keep</span>
+        </div>
+        <div class="grid" id="frozenGrid"></div>
+    </section>
+
+    <!-- contact -->
+    <section class="contact" id="contact">
+        <div class="contact-inner">
+            <div>
+                <h2>Order or visit</h2>
+                <div class="contact-item">
+                    <div class="label">Address</div>
+                    <div class="value">Sharhan Broilers, Mumbai</div>
+                </div>
+                <div class="contact-item">
+                    <div class="label">Phone</div>
+                    <div class="value">7709183214</div>
+                </div>
+                <div class="contact-item">
+                    <div class="label">WhatsApp</div>
+                    <div class="value">9895949652</div>
+                </div><a class="btn" href="https://wa.me/919895949652" target="_blank" rel="noopener">Message on
+                    WhatsApp</a>
+            </div>
+            <div>
+                <h2>Shop hours</h2>
+                <div class="hours">Monday – Saturday: 8:00 AM – 9:00 PM<br>Sunday: 8:00 AM – 2:00 PM<br><br>Call ahead
+                    for bulk or advance orders.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>Sharhan Broilers Chicken Centre — Mumbai. Prices shown are sample rates and may change daily.</footer>
+
+    <!-- Login Modal -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-box">
+            <h3>🔐 Login</h3><label>Email / Username</label><input type="text" id="loginUser"
+                placeholder="user@example.com"><label>Password</label><input type="password" id="loginPass"
+                placeholder="••••••••">
+            <div id="loginError" class="error"></div>
+            <div class="actions"><button class="secondary" id="modalClose">Cancel</button><button class="primary"
+                    id="modalLogin">Login</button></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-title" id="toastTitle">✅ Added to Cart</div>
+        <div class="toast-msg" id="toastMsg">Item has been added to your cart</div>
+    </div>
+
+    <script>
+        (function () {
+            // ---------- DEFAULT DATA ----------
+            const defaultProducts = {
+                offers: [
+                    { id: 'o1', name: 'Whole Chicken', desc: 'Skin on, fresh, cleaned', price: 220, unit: '/kg', badge: 'Save ₹20/kg', frozen: false, image: '🐔' },
+                    { id: 'o2', name: 'Curry Cut Portions', desc: 'Bone-in, medium pieces', price: 250, unit: '/kg', badge: 'Bestseller', frozen: false, image: '🍗' },
+                    { id: 'o3', name: 'Boneless Portions', desc: 'Breast & leg, trimmed', price: 320, unit: '/kg', badge: 'Fresh', frozen: false, image: '🍖' },
+                    { id: 'o4', name: 'Whole Chicken (Frozen)', desc: 'Sealed pack, ready to store', price: 210, unit: '/kg', badge: 'Frozen', frozen: true, image: '❄️' }
+                ],
+                fresh: [
+                    { id: 'f1', name: 'Whole Chicken', desc: 'Skin on, cleaned', price: 220, unit: '/kg', badge: null, frozen: false, image: '🐔' },
+                    { id: 'f2', name: 'Whole Chicken — Skinless', desc: 'Cleaned and skinned', price: 240, unit: '/kg', badge: null, frozen: false, image: '🐓' },
+                    { id: 'f3', name: 'Curry Cut Portions', desc: 'Bone-in, medium pieces', price: 250, unit: '/kg', badge: null, frozen: false, image: '🍗' },
+                    { id: 'f4', name: 'Boneless Portions', desc: 'Breast & leg, trimmed', price: 320, unit: '/kg', badge: null, frozen: false, image: '🍖' },
+                    { id: 'f5', name: 'Wings', desc: 'Fresh, medium size', price: 260, unit: '/kg', badge: null, frozen: false, image: '🪽' },
+                    { id: 'f6', name: 'Leg Pieces', desc: 'Fresh, thigh & drumstick', price: 270, unit: '/kg', badge: null, frozen: false, image: '🍗' },
+                    { id: 'f7', name: 'Chicken Mince', desc: 'Freshly ground', price: 290, unit: '/kg', badge: null, frozen: false, image: '🥩' }
+                ],
+                frozen: [
+                    { id: 'z1', name: 'Whole Chicken (Frozen)', desc: 'Sealed pack', price: 210, unit: '/kg', badge: null, frozen: true, image: '❄️' },
+                    { id: 'z2', name: 'Whole Chicken — Skinless (Frozen)', desc: 'Sealed pack', price: 230, unit: '/kg', badge: null, frozen: true, image: '❄️' },
+                    { id: 'z3', name: 'Curry Cut Portions (Frozen)', desc: 'Bone-in, sealed pack', price: 240, unit: '/kg', badge: null, frozen: true, image: '❄️' },
+                    { id: 'z4', name: 'Boneless Portions (Frozen)', desc: 'Breast & leg, sealed pack', price: 300, unit: '/kg', badge: null, frozen: true, image: '❄️' }
+                ]
+            };
+
+            // ---------- PERSISTENCE ----------
+            function loadProducts() {
+                const stored = localStorage.getItem('sharhan_products');
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (parsed.offers && parsed.fresh && parsed.frozen) {
+                            return parsed;
+                        }
+                    } catch (e) { }
+                }
+                localStorage.setItem('sharhan_products', JSON.stringify(defaultProducts));
+                return JSON.parse(JSON.stringify(defaultProducts));
+            }
+
+            function saveProducts(data) {
+                localStorage.setItem('sharhan_products', JSON.stringify(data));
+            }
+
+            let products = loadProducts();
+
+            // ---------- CART STATE ----------
+            let cart = [];
+            let currentUser = null;
+            let isAdminMode = false;
+
+            // DOM refs
+            const offersGrid = document.getElementById('offersGrid');
+            const freshGrid = document.getElementById('freshGrid');
+            const frozenGrid = document.getElementById('frozenGrid');
+            const cartCountEl = document.getElementById('cartCount');
+            const cartItemsEl = document.getElementById('cartItems');
+            const cartTotalEl = document.getElementById('cartTotal');
+            const cartDropdown = document.getElementById('cartDropdown');
+            const cartToggle = document.getElementById('cartToggle');
+            const whatsappBtn = document.getElementById('whatsappOrder');
+            const clearCartBtn = document.getElementById('clearCart');
+            const loginModal = document.getElementById('loginModal');
+            const loginUser = document.getElementById('loginUser');
+            const loginPass = document.getElementById('loginPass');
+            const loginError = document.getElementById('loginError');
+            const greeting = document.getElementById('greeting');
+            const loginBtn = document.getElementById('loginBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const adminSwitch = document.getElementById('adminSwitch');
+            const adminBadge = document.getElementById('adminBadge');
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toastTitle');
+            const toastMsg = document.getElementById('toastMsg');
+            const searchInput = document.getElementById('searchInput');
+
+            let toastTimeout = null;
+
+            // ---------- TOAST ----------
+            function showToast(title, msg, duration = 2500) {
+                toastTitle.textContent = title;
+                toastMsg.textContent = msg;
+                toast.classList.add('show');
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, duration);
+            }
+
+            // ---------- CART FUNCTIONS ----------
+            function addToCart(productId) {
+                if (!currentUser) {
+                    showToast('🔒 Login Required', 'Please login to add items to cart', 3000);
+                    loginModal.classList.add('active');
+                    return;
+                }
+
+                let product = null;
+                for (let list of [products.offers, products.fresh, products.frozen]) {
+                    const found = list.find(p => p.id === productId);
+                    if (found) { product = found; break; }
+                }
+
+                if (!product) return;
+
+                const existing = cart.find(item => item.id === productId);
+                if (existing) {
+                    existing.qty += 1;
+                } else {
+                    cart.push({ ...product, qty: 1 });
+                }
+
+                updateCartUI();
+
+                // Visual feedback on button
+                const btn = document.querySelector(`[data-product-id="${productId}"]`);
+                if (btn) {
+                    btn.textContent = '✅ Added';
+                    btn.classList.add('added');
+                    setTimeout(() => {
+                        btn.textContent = 'Add';
+                        btn.classList.remove('added');
+                    }, 1500);
+                }
+
+                showToast('✅ Added to Cart', `${product.name} added to your order`);
+            }
+
+            function removeFromCart(productId) {
+                const existing = cart.find(item => item.id === productId);
+                if (existing) {
+                    if (existing.qty > 1) {
+                        existing.qty -= 1;
+                    } else {
+                        cart = cart.filter(item => item.id !== productId);
+                    }
+                }
+                updateCartUI();
+            }
+
+            function clearCart() {
+                if (cart.length === 0) return;
+                if (confirm('Clear all items from cart?')) {
+                    cart = [];
+                    updateCartUI();
+                    showToast('🗑️ Cart Cleared', 'All items removed from your cart');
+                }
+            }
+
+            function getCartTotal() {
+                return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            }
+
+            function getCartCount() {
+                return cart.reduce((sum, item) => sum + item.qty, 0);
+            }
+
+            function updateCartUI() {
+                const count = getCartCount();
+                const total = getCartTotal();
+                cartCountEl.textContent = count;
+                cartCountEl.classList.add('bump');
+                setTimeout(() => cartCountEl.classList.remove('bump'), 200);
+
+                if (cart.length === 0) {
+                    cartItemsEl.innerHTML = '<div class="cart-empty">🛒 Your cart is empty</div>';
+                    cartTotalEl.textContent = '₹0';
+                    return;
+                }
+
+                cartItemsEl.innerHTML = cart.map(item => `
+        <div class="cart-item">
+          <div class="item-info">
+            <div class="item-name">${item.image || '🍗'} ${item.name}</div>
+            <div class="item-price">₹${item.price}${item.unit || '/kg'}</div>
+          </div>
+          <div class="item-qty">
+            <button onclick="window.removeFromCart('${item.id}')">−</button>
+            <span>${item.qty}</span>
+            <button onclick="window.addToCart('${item.id}')">+</button>
+          </div>
+        </div>
+      `).join('');
+
+                cartTotalEl.textContent = `₹${total}`;
+            }
+
+            // ---------- WHATSAPP ORDER ----------
+            function shareOnWhatsApp() {
+                if (cart.length === 0) {
+                    showToast('🛒 Cart Empty', 'Add items to your cart first');
+                    return;
+                }
+
+                if (!currentUser) {
+                    showToast('🔒 Login Required', 'Please login to place an order', 3000);
+                    loginModal.classList.add('active');
+                    return;
+                }
+
+                const phoneNumber = '919895949652'; // WhatsApp number
+                let message = '🛒 *Sharhan Broilers - Order Details*\n\n';
+                message += `👤 *Customer:* ${currentUser === 'admin' ? 'Admin' : 'Customer'}\n`;
+                message += `📅 *Date:* ${new Date().toLocaleDateString('en-IN')}\n`;
+                message += `⏰ *Time:* ${new Date().toLocaleTimeString('en-IN')}\n\n`;
+                message += '📋 *Order Items:*\n';
+                message += '─'.repeat(30) + '\n';
+
+                cart.forEach((item, index) => {
+                    message += `${index + 1}. ${item.image || '🍗'} *${item.name}*\n`;
+                    message += `   Quantity: ${item.qty} × ₹${item.price}${item.unit || '/kg'}\n`;
+                    message += `   Subtotal: ₹${item.price * item.qty}\n\n`;
+                });
+
+                message += '─'.repeat(30) + '\n';
+                message += `💰 *Grand Total: ₹${getCartTotal()}*\n\n`;
+                message += '📞 *Contact:* 7709183214\n';
+                message += '📍 *Address:* Sharhan Broilers, Mumbai\n\n';
+                message += '✅ *Please confirm availability before pickup.*';
+
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+                window.open(whatsappUrl, '_blank');
+
+                // Optional: clear cart after sharing
+                // cart = [];
+                // updateCartUI();
+            }
+
+            // ---------- RENDER PRODUCTS ----------
+            function renderImage(item) {
+                if (item.image && item.image.startsWith('data:image')) {
+                    return `<img src="${item.image}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;">`;
+                }
+                return item.image || '🐔';
+            }
+
+            function renderCard(p, isAdmin) {
+                const badgeHtml = p.badge ? `<span class="offer-badge">${p.badge}</span>` : '';
+                const frozenClass = p.frozen ? 'frozen-card' : '';
+                const artClass = p.frozen ? 'art frozen-tint' : 'art';
+                const addBtn = `<button class="add" data-product-id="${p.id}" onclick="window.addToCart('${p.id}')">Add</button>`;
+
+                let adminControls = '';
+                if (isAdmin) {
+                    adminControls = `
+          <div class="admin-controls">
+            <div class="row">
+              <input type="text" value="${p.price}" data-field="price" data-id="${p.id}" placeholder="price" style="width:60px;">
+              <input type="text" value="${p.name}" data-field="name" data-id="${p.id}" placeholder="name" style="width:80px;">
+              <input type="text" value="${p.desc}" data-field="desc" data-id="${p.id}" placeholder="desc" style="width:80px;">
+            </div>
+            <div class="row">
+              <input type="text" value="${p.image || ''}" data-field="image" data-id="${p.id}" placeholder="Emoji or image URL" style="flex:2;">
+              <input type="file" data-field="imagefile" data-id="${p.id}" accept="image/*" style="flex:1;">
+              <button data-action="update" data-id="${p.id}">💾 Update</button>
+              <button class="del" data-action="delete" data-id="${p.id}">✕ Delete</button>
+            </div>
+            ${p.image && p.image.startsWith('data:image') ? `<div class="row"><img src="${p.image}" class="image-preview" alt="preview"></div>` : ''}
+          </div>
+        `;
+                }
+
+                return `<div class="card ${frozenClass}" data-id="${p.id}">
+        ${badgeHtml}
+        <div class="${artClass}">${renderImage(p)}</div>
+        <div class="name">${p.name}</div>
+        <div class="desc">${p.desc}</div>
+        <div class="price-row">
+          <div class="price">₹${p.price}<small>${p.unit || '/kg'}</small></div>
+          ${addBtn}
+        </div>
+        ${adminControls}
+      </div>`;
+            }
+
+            function renderAll() {
+                const admin = isAdminMode && currentUser === 'admin';
+
+                // Filter products based on search
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+                const filterProducts = (list) => {
+                    if (!searchTerm) return list;
+                    return list.filter(p =>
+                        p.name.toLowerCase().includes(searchTerm) ||
+                        p.desc.toLowerCase().includes(searchTerm)
+                    );
+                };
+
+                const filteredOffers = filterProducts(products.offers);
+                const filteredFresh = filterProducts(products.fresh);
+                const filteredFrozen = filterProducts(products.frozen);
+
+                offersGrid.innerHTML = filteredOffers.map(p => renderCard(p, admin)).join('');
+                freshGrid.innerHTML = filteredFresh.map(p => renderCard(p, admin)).join('');
+                frozenGrid.innerHTML = filteredFrozen.map(p => renderCard(p, admin)).join('');
+
+                if (admin) attachAdminEvents();
+
+                document.querySelectorAll('.section-head').forEach(head => {
+                    let addBtn = head.querySelector('.admin-add-btn');
+                    if (!addBtn && isAdminMode && currentUser === 'admin') {
+                        const btn = document.createElement('button');
+                        btn.textContent = '+ Add item';
+                        btn.className = 'admin-add-btn';
+                        btn.onclick = function (e) {
+                            const section = this.closest('.section');
+                            let targetList;
+                            if (section.id === 'fresh') targetList = products.fresh;
+                            else if (section.id === 'frozen') targetList = products.frozen;
+                            else targetList = products.offers;
+                            const newItem = {
+                                id: 'n' + Date.now(),
+                                name: 'New item',
+                                desc: 'edit me',
+                                price: 199,
+                                unit: '/kg',
+                                badge: null,
+                                frozen: section.id === 'frozen' ? true : false,
+                                image: '🍗'
+                            };
+                            targetList.push(newItem);
+                            saveProducts(products);
+                            renderAll();
+                        };
+                        head.appendChild(btn);
+                    }
+                });
+            }
+
+            // ---------- ADMIN EVENTS ----------
+            function attachAdminEvents() {
+                document.querySelectorAll('[data-action="update"]').forEach(btn => {
+                    btn.onclick = function (e) {
+                        e.stopPropagation();
+                        const id = this.dataset.id;
+                        const card = this.closest('.card');
+                        const priceInput = card.querySelector('[data-field="price"]');
+                        const nameInput = card.querySelector('[data-field="name"]');
+                        const descInput = card.querySelector('[data-field="desc"]');
+                        const imageInput = card.querySelector('[data-field="image"]');
+                        const fileInput = card.querySelector('[data-field="imagefile"]');
+
+                        const newPrice = parseFloat(priceInput.value);
+                        const newName = nameInput.value.trim();
+                        const newDesc = descInput ? descInput.value.trim() : '';
+                        let newImage = imageInput ? imageInput.value.trim() : '';
+
+                        if (isNaN(newPrice) || !newName) {
+                            showToast('⚠️ Error', 'Please enter valid price and name');
+                            return;
+                        }
+
+                        if (fileInput && fileInput.files && fileInput.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = function (event) {
+                                newImage = event.target.result;
+                                updateProduct(id, newPrice, newName, newDesc, newImage);
+                            };
+                            reader.readAsDataURL(fileInput.files[0]);
+                            return;
+                        }
+
+                        updateProduct(id, newPrice, newName, newDesc, newImage);
+                    };
+                });
+
+                document.querySelectorAll('[data-action="delete"]').forEach(btn => {
+                    btn.onclick = function (e) {
+                        e.stopPropagation();
+                        const id = this.dataset.id;
+                        if (!confirm('Delete this item?')) return;
+                        for (let list of [products.offers, products.fresh, products.frozen]) {
+                            const idx = list.findIndex(p => p.id === id);
+                            if (idx !== -1) { list.splice(idx, 1); break; }
+                        }
+                        saveProducts(products);
+                        renderAll();
+                        showToast('🗑️ Deleted', 'Item removed from catalog');
+                    };
+                });
+            }
+
+            function updateProduct(id, price, name, desc, image) {
+                let found = false;
+                for (let list of [products.offers, products.fresh, products.frozen]) {
+                    const item = list.find(p => p.id === id);
+                    if (item) {
+                        item.price = price;
+                        item.name = name;
+                        if (desc) item.desc = desc;
+                        if (image) item.image = image;
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    saveProducts(products);
+                    renderAll();
+                    showToast('✅ Updated', 'Product updated successfully');
+                }
+            }
+
+            // ---------- AUTH ----------
+            function updateUI() {
+                if (currentUser === 'admin') {
+                    greeting.textContent = '👑 Admin';
+                    loginBtn.style.display = 'none';
+                    logoutBtn.style.display = 'inline-block';
+                    adminBadge.style.display = 'inline-block';
+                    isAdminMode = true;
+                    renderAll();
+                } else if (currentUser === 'customer') {
+                    greeting.textContent = '👤 Customer';
+                    loginBtn.style.display = 'none';
+                    logoutBtn.style.display = 'inline-block';
+                    adminBadge.style.display = 'none';
+                    isAdminMode = false;
+                    renderAll();
+                } else {
+                    greeting.textContent = '👋 Guest';
+                    loginBtn.style.display = 'inline-block';
+                    logoutBtn.style.display = 'none';
+                    adminBadge.style.display = 'none';
+                    isAdminMode = false;
+                    renderAll();
+                }
+                updateCartUI();
+            }
+
+            function login(userType) {
+                currentUser = userType;
+                loginModal.classList.remove('active');
+                updateUI();
+                showToast('👋 Welcome', `Logged in as ${userType === 'admin' ? 'Admin' : 'Customer'}`);
+            }
+
+            function logout() {
+                if (cart.length > 0) {
+                    if (!confirm('Your cart will be cleared. Logout anyway?')) return;
+                }
+                currentUser = null;
+                isAdminMode = false;
+                cart = [];
+                updateUI();
+                showToast('👋 Logged Out', 'See you again!');
+            }
+
+            // ---------- EVENT LISTENERS ----------
+            // Cart toggle
+            cartToggle.addEventListener('click', function (e) {
+                e.stopPropagation();
+                cartDropdown.classList.toggle('active');
+            });
+
+            // Close cart when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('.cart-wrapper')) {
+                    cartDropdown.classList.remove('active');
+                }
+            });
+
+            // WhatsApp button
+            whatsappBtn.addEventListener('click', shareOnWhatsApp);
+
+            // Clear cart
+            clearCartBtn.addEventListener('click', clearCart);
+
+            // Search
+            searchInput.addEventListener('input', function () {
+                renderAll();
+            });
+
+            // Login modal
+            loginBtn.onclick = () => loginModal.classList.add('active');
+            document.getElementById('modalClose').onclick = () => loginModal.classList.remove('active');
+            document.getElementById('modalLogin').onclick = function () {
+                const u = loginUser.value.trim();
+                const p = loginPass.value.trim();
+                if (!u || !p) { loginError.textContent = 'Please fill both fields.'; return; }
+                if (u === 'admin' && p === 'admin123') {
+                    login('admin');
+                    loginError.textContent = '';
+                    loginUser.value = ''; loginPass.value = '';
+                } else if (u === 'customer' && p === 'cust123') {
+                    login('customer');
+                    loginError.textContent = '';
+                    loginUser.value = ''; loginPass.value = '';
+                } else {
+                    loginError.textContent = 'Invalid credentials. Try admin/admin123 or customer/cust123';
+                }
+            };
+            loginModal.addEventListener('click', function (e) { if (e.target === this) this.classList.remove('active'); });
+
+            logoutBtn.onclick = logout;
+
+            adminSwitch.onclick = function () {
+                if (!currentUser) { showToast('🔒 Login Required', 'Please login first'); return; }
+                if (currentUser !== 'admin') { showToast('⛔ Access Denied', 'Admin access required'); return; }
+                isAdminMode = !isAdminMode;
+                renderAll();
+                if (isAdminMode) attachAdminEvents();
+                showToast(isAdminMode ? '🔐 Admin Mode ON' : '🔐 Admin Mode OFF',
+                    isAdminMode ? 'You can now edit products' : 'Admin controls hidden');
+            };
+
+            // Expose functions globally
+            window.addToCart = addToCart;
+            window.removeFromCart = removeFromCart;
+
+            // ---------- INIT ----------
+            renderAll();
+            updateUI();
+
+            // Multi-tab sync
+            setInterval(() => {
+                const stored = localStorage.getItem('sharhan_products');
+                if (stored) {
+                    try {
+                        const parsed = JSON.parse(stored);
+                        if (parsed.offers && parsed.fresh && parsed.frozen) {
+                            if (JSON.stringify(parsed) !== JSON.stringify(products)) {
+                                products = parsed;
+                                renderAll();
+                                if (isAdminMode && currentUser === 'admin') attachAdminEvents();
+                            }
+                        }
+                    } catch (e) { }
+                }
+            }, 2000);
+
+        })();
+    </script>
+</body>
+
+</html>
